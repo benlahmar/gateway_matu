@@ -1,0 +1,23 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: catalogue-service
+        predicates:          - Path=/categories/**
+          
+          - Query=alpha, x.
+          
+        uri: http://localhost:8082
+      - id: costumer-service
+        uri: lb://cusomer-service
+        predicates:
+          - Path=/clients/**
+        filters:
+        - AddRequestHeader=X-Matu, blue
+        - AddRequestParameter=red, blue
+        - AddResponseHeader=X-Response-Red, Blue 
+  application:    name: gateway-service
+
+server:  port: 9999
+
+management:  endpoints:    web:      exposure:        include: "*"
